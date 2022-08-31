@@ -1,0 +1,95 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/proton-app/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/web:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "compiler": "babel",
+        "progress": true,
+        "verbose": true,
+        "generateIndexHtml": true,
+        "outputPath": "dist/apps/proton-app",
+        "index": "apps/proton-app/src/index.html",
+        "baseHref": "/",
+        "main": "apps/proton-app/src/main.tsx",
+        "polyfills": "apps/proton-app/src/polyfills.ts",
+        "tsConfig": "apps/proton-app/tsconfig.app.json",
+        "assets": [
+          "apps/proton-app/src/favicon.ico",
+          "apps/proton-app/src/assets"
+        ],
+        "styles": [],
+        "scripts": [],
+        "webpackConfig": "@nrwl/react/plugins/webpack"
+      },
+      "configurations": {
+        "development": {
+          "extractLicenses": false,
+          "optimization": false,
+          "sourceMap": true,
+          "namedChunks": true,
+          "commonChunk": true,
+          "vendorChunk": true,
+          "runtimeChunk": true
+        },
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "apps/proton-app/src/environments/environment.ts",
+              "with": "apps/proton-app/src/environments/environment.prod.ts"
+            }
+          ],
+          "optimization": true,
+          "outputHashing": "all",
+          "sourceMap": false,
+          "namedChunks": false,
+          "extractLicenses": true,
+          "commonChunk": true,
+          "vendorChunk": false
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/web:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "proton-app:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "proton-app:build:development",
+          "watch": true,
+          "poll": 5,
+          "inspect": true,
+          "hmr": true,
+          "liveReload": true,
+          "disableHostCheck": true
+        },
+        "production": {
+          "buildTarget": "proton-app:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/proton-app/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/proton-app"],
+      "options": {
+        "jestConfig": "apps/proton-app/jest.config.ts",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

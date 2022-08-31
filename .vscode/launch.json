@@ -1,0 +1,46 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Firefox Debug",
+      "type": "firefox",
+      "request": "launch",
+      "firefoxExecutable": "developer",
+      "url": "http://localhost:4200",
+      "timeout": 5,
+      "reAttach": true,
+      "clearConsoleOnReload": true,
+      "reloadOnAttach": true,
+      "enableCRAWorkaround": true,
+      "webRoot": "${workspaceFolder}",
+      "pathMappings": [
+        {
+          "url": "webpack:///src",
+          "path": "${workspaceFolder}/apps/proton-app/src"
+        },
+        {
+          "url": "webpack:///node_modules",
+          "path": "${workspaceFolder}/node_modules"
+        }
+      ],
+      "log": {
+        "fileName": "${workspaceFolder}/vscode-firefox-debug.log",
+        "fileLevel": {
+          "default": "Debug"
+        },
+        "consoleLevel": {
+          "default": "Info"
+        }
+      }
+    },
+    {
+      "name": "Chrome Debug",
+      "port": 9222,
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/apps/proton-app",
+      "sourceMaps": true
+    }
+  ]
+}
