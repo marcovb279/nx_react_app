@@ -1,6 +1,6 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/proton-app/src",
+  "sourceRoot": "apps/secure-message-panel/src",
   "projectType": "application",
   "targets": {
     "build": {
@@ -12,15 +12,15 @@
         "progress": true,
         "verbose": true,
         "generateIndexHtml": true,
-        "outputPath": "dist/apps/proton-app",
-        "index": "apps/proton-app/src/index.html",
+        "outputPath": "dist/apps/secure-message-panel",
+        "index": "apps/secure-message-panel/src/index.html",
         "baseHref": "/",
-        "main": "apps/proton-app/src/main.tsx",
-        "polyfills": "apps/proton-app/src/polyfills.ts",
-        "tsConfig": "apps/proton-app/tsconfig.app.json",
+        "main": "apps/secure-message-panel/src/main.tsx",
+        "polyfills": "apps/secure-message-panel/src/polyfills.ts",
+        "tsConfig": "apps/secure-message-panel/tsconfig.app.json",
         "assets": [
-          "apps/proton-app/src/favicon.ico",
-          "apps/proton-app/src/assets"
+          "apps/secure-message-panel/src/favicon.ico",
+          "apps/secure-message-panel/src/assets"
         ],
         "styles": [],
         "scripts": [],
@@ -39,8 +39,8 @@
         "production": {
           "fileReplacements": [
             {
-              "replace": "apps/proton-app/src/environments/environment.ts",
-              "with": "apps/proton-app/src/environments/environment.prod.ts"
+              "replace": "apps/secure-message-panel/src/environments/environment.ts",
+              "with": "apps/secure-message-panel/src/environments/environment.prod.ts"
             }
           ],
           "optimization": true,
@@ -57,11 +57,11 @@
       "executor": "@nrwl/web:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "proton-app:build"
+        "buildTarget": "secure-message-panel:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "proton-app:build:development",
+          "buildTarget": "secure-message-panel:build:development",
           "watch": true,
           "poll": 5,
           "inspect": true,
@@ -70,7 +70,7 @@
           "disableHostCheck": true
         },
         "production": {
-          "buildTarget": "proton-app:build:production",
+          "buildTarget": "secure-message-panel:build:production",
           "hmr": false
         }
       }
@@ -79,14 +79,14 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/proton-app/**/*.{ts,tsx,js,jsx}"]
+        "lintFilePatterns": ["apps/secure-message-panel/**/*.{ts,tsx,js,jsx}"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/apps/proton-app"],
+      "outputs": ["coverage/apps/secure-message-panel"],
       "options": {
-        "jestConfig": "apps/proton-app/jest.config.ts",
+        "jestConfig": "apps/secure-message-panel/jest.config.ts",
         "passWithNoTests": true
       }
     }

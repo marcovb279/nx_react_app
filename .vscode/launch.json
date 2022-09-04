@@ -2,6 +2,15 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Chrome Debug",
+      "port": 9222,
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:4200",
+      "webRoot": "${workspaceFolder}/apps/secure-message-panel",
+      "sourceMaps": true
+    },
+    {
       "name": "Firefox Debug",
       "type": "firefox",
       "request": "launch",
@@ -16,7 +25,7 @@
       "pathMappings": [
         {
           "url": "webpack:///src",
-          "path": "${workspaceFolder}/apps/proton-app/src"
+          "path": "${workspaceFolder}/apps/secure-message-panel/src"
         },
         {
           "url": "webpack:///node_modules",
@@ -32,15 +41,6 @@
           "default": "Info"
         }
       }
-    },
-    {
-      "name": "Chrome Debug",
-      "port": 9222,
-      "type": "chrome",
-      "request": "launch",
-      "url": "http://localhost:4200",
-      "webRoot": "${workspaceFolder}/apps/proton-app",
-      "sourceMaps": true
     }
   ]
 }

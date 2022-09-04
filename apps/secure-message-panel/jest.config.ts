@@ -1,12 +1,11 @@
-
 /* eslint-disable */
 export default {
-  displayName: 'proton-app',
+  displayName: 'secure-message-panel',
   preset: '../../jest.preset.js',
   transform: {
     '^(?!.*\\.(js|jsx|ts|tsx|css|json)$)': '@nrwl/react/plugins/jest',
     '^.+\\.[tj]sx?$': 'babel-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/apps/proton-app',
+  coverageDirectory: '../../coverage/apps/secure-message-panel',
 };

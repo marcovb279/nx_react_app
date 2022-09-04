@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "proton-app",
+  "npmScope": "react-app-workspace",
   "affected": {
     "defaultBase": "main"
   },
@@ -40,5 +40,5 @@
       }
     }
   },
-  "defaultProject": "proton-app"
+  "defaultProject": "secure-message-panel"
 }

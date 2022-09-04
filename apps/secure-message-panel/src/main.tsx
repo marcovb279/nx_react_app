@@ -1,13 +1,20 @@
+import { createTheme } from '@mui/material';
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-
-import App from './app/app';
+import Panel from './app/panel';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+  },
+});
+
 root.render(
   <StrictMode>
-    <App />
+    <Panel theme={darkTheme} />
   </StrictMode>
 );
