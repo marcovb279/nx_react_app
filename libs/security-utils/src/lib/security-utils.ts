@@ -62,11 +62,11 @@ export function encryptMessage(
       decryptKey({ privateKey: privKey, passphrase: password })
     ),
     createMessage({ text: message }),
-  ]).then(([encKey, signKey, message]) => {
+  ]).then(([encryptionKey, signingKey, message]) => {
     return encrypt({
       message: message,
-      encryptionKeys: encKey,
-      signingKeys: signKey,
+      encryptionKeys: encryptionKey,
+      signingKeys: signingKey,
     }).then((message) => <string>message);
   });
 }

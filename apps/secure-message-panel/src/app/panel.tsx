@@ -7,11 +7,14 @@ import {
   Button,
   CssBaseline,
   ThemeProvider,
+  FormControl,
+  InputLabel,
+  Input,
+  FilledInput,
 } from '@mui/material';
 import * as _ from 'lodash';
 import axios from 'axios';
 import * as secUtils from '@react-app-workspace/security-utils';
-import { encryptMessage } from '@react-app-workspace/security-utils';
 
 const MyPublicKeyURL =
   'https://security-n-privacy.s3.eu-west-3.amazonaws.com/0x530EDF90_public.asc';
@@ -42,22 +45,22 @@ interface PanelProperties {
 
 interface PanelState {
   password: string;
-  genPrivateKey: string;
-  genPublicKey: string;
+  generatedPrivateKey: string;
+  generatedPublicKey: string;
   myPublicKey: string;
-  encryptedText?: string;
-  decryptedText?: string;
+  encryptedMessage: string;
+  decryptedMessage: string;
   button: boolean;
 }
 
 class Panel extends React.Component<PanelProperties, PanelState> {
   override state: PanelState = {
     password: '',
-    genPrivateKey: '',
-    genPublicKey: '',
+    generatedPrivateKey: '',
+    generatedPublicKey: '',
     myPublicKey: '',
-    encryptedText: '',
-    decryptedText: '',
+    encryptedMessage: '',
+    decryptedMessage: '',
     button: true,
   };
 
@@ -72,9 +75,10 @@ class Panel extends React.Component<PanelProperties, PanelState> {
       });
   };
 
-  handleClick = (event: React.MouseEvent<Button>) => {
+  handleClick = (event: React.MouseEvent) => {
+    this.setState({ button: false });
     const password = secUtils.generatePassword(10);
-    this.setState({ password: password, button: false });
+    this.setState({ password: password });
     secUtils
       .generateKeyPair({
         name: 'Proton Team',
@@ -82,35 +86,50 @@ class Panel extends React.Component<PanelProperties, PanelState> {
         password: password,
       })
       .then((generatedKey) =>
-        this.setState({
-          genPrivateKey: generatedKey.privateKey,
-          genPublicKey: generatedKey.publicKey,
-        })
+        this.setState(
+          {
+            generatedPrivateKey: generatedKey.privateKey,
+            generatedPublicKey: generatedKey.publicKey,
+          },
+          this.updateEncryptedMessage
+        )
       )
       .finally(() => {
         this.setState({ button: true });
       });
   };
 
-  handleDecryptedMessageUpdated = _.debounce((value) => {
+  updateEncryptedMessage = () => {
     if (
       this.state.myPublicKey.length > 0 &&
-      this.state.genPrivateKey.length > 0 &&
-      this.state.password.length > 0
+      this.state.generatedPrivateKey.length > 0 &&
+      this.state.password.length > 0 &&
+      this.state.decryptedMessage.length > 0
     ) {
       secUtils
         .encryptMessage(
-          value,
+          this.state.decryptedMessage,
           this.state.myPublicKey,
-          this.state.genPrivateKey,
+          this.state.generatedPrivateKey,
           this.state.password
         )
-        .then((encMessage) => {
-          console.log(value);
-          this.setState({ encryptedText: encMessage });
+        .then((encryptedMessage) => {
+          this.setState({ encryptedMessage: encryptedMessage });
         });
     }
-  }, 1000);
+  };
+
+  debouncedOnChangeEncryptedMessage = _.debounce(
+    () => this.updateEncryptedMessage(),
+    500
+  );
+
+  onChangeDecryptedMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    this.setState(
+      { decryptedMessage: event.target.value },
+      this.debouncedOnChangeEncryptedMessage
+    );
+  };
 
   override render() {
     return (
@@ -130,7 +149,7 @@ class Panel extends React.Component<PanelProperties, PanelState> {
               <Button
                 variant="contained"
                 fullWidth
-                disabled={!this.button}
+                disabled={!this.state.button}
                 onClick={this.handleClick}
               >
                 Generate keypair & Password
@@ -156,7 +175,7 @@ class Panel extends React.Component<PanelProperties, PanelState> {
                 rows={15}
                 size="small"
                 fullWidth
-                value={this.state.genPublicKey}
+                value={this.state.generatedPublicKey}
               />
             </Grid>
             <Grid item xs={4}>
@@ -167,7 +186,7 @@ class Panel extends React.Component<PanelProperties, PanelState> {
                 rows={15}
                 size="small"
                 fullWidth
-                value={this.state.genPrivateKey}
+                value={this.state.generatedPrivateKey}
               />
             </Grid>
             <Grid item xs={4}>
@@ -191,20 +210,32 @@ class Panel extends React.Component<PanelProperties, PanelState> {
                 size="small"
                 fullWidth
                 // onChange={this.handleEncryptedMessageUpdated}
-                value={this.state.encryptedText}
+                value={this.state.encryptedMessage}
               />
             </Grid>
             <Grid item xs={8}>
+              {/* <FormControl variant="standard" fullWidth>
+                <InputLabel htmlFor="component-simple">
+                  Decrypted message
+                </InputLabel>
+                <FilledInput
+                  id="field-my-decrypted-message"
+                  multiline
+                  rows={15}
+                  size="small"
+                  value={this.state.decryptedMessage}
+                  onChange={this.deboundedUpdateEncryptedMessage}
+                />
+              </FormControl> */}
               <CssTextField
                 id="field-my-decrypted-message"
-                label="Plain message"
+                label="Decrypted message"
                 multiline
                 rows={15}
                 size="small"
                 fullWidth
-                onChange={(event) =>
-                  this.handleDecryptedMessageUpdated(event.target.value)
-                }
+                value={this.state.decryptedMessage}
+                onChange={this.onChangeDecryptedMessage}
               />
             </Grid>
           </Grid>
