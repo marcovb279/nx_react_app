@@ -23,12 +23,12 @@ const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
     color: 'white',
   },
-  '& .MuiInput-underline:after': {
-    borderBottomColor: 'green',
-  },
+  // '& .MuiInput-underline:after': {
+  //   borderBottomColor: 'green',
+  // },
   '& .MuiOutlinedInput-root': {
     '& fieldset': {
-      borderColor: 'white',
+      borderColor: 'gray',
     },
     '&:hover fieldset': {
       borderColor: 'white',
@@ -102,11 +102,12 @@ class Panel extends React.Component<PanelProperties, PanelState> {
   };
 
   updateEncryptedMessage = () => {
-    if (
+    if (this.state.decryptedMessage.length == 0) {
+      this.setState({ encryptedMessage: '' });
+    } else if (
       this.state.myPublicKey.length > 0 &&
       this.state.generatedPrivateKey.length > 0 &&
-      this.state.password.length > 0 &&
-      this.state.decryptedMessage.length > 0
+      this.state.password.length > 0
     ) {
       secUtils
         .encryptMessage(
