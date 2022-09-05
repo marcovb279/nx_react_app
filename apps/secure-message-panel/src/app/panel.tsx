@@ -76,27 +76,29 @@ class Panel extends React.Component<PanelProperties, PanelState> {
   };
 
   handleClick = (event: React.MouseEvent) => {
-    this.setState({ button: false });
-    const password = secUtils.generatePassword(10);
-    this.setState({ password: password });
-    secUtils
-      .generateKeyPair({
-        name: 'Proton Team',
-        email: 'careers@protonmail.recruitee.com',
-        password: password,
-      })
-      .then((generatedKey) =>
-        this.setState(
-          {
-            generatedPrivateKey: generatedKey.privateKey,
-            generatedPublicKey: generatedKey.publicKey,
-          },
-          this.updateEncryptedMessage
-        )
-      )
-      .finally(() => {
-        this.setState({ button: true });
+    this.setState({ button: false }, () => {
+      const password = secUtils.generatePassword(10);
+      this.setState({ password: password }, () => {
+        secUtils
+          .generateKeyPair({
+            name: 'Proton Team',
+            email: 'careers@protonmail.recruitee.com',
+            password: password,
+          })
+          .then((generatedKey) =>
+            this.setState(
+              {
+                generatedPrivateKey: generatedKey.privateKey,
+                generatedPublicKey: generatedKey.publicKey,
+              },
+              this.updateEncryptedMessage
+            )
+          )
+          .finally(() => {
+            this.setState({ button: true });
+          });
       });
+    });
   };
 
   updateEncryptedMessage = () => {
