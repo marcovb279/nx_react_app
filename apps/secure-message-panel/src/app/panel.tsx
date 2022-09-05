@@ -81,8 +81,10 @@ class Panel extends React.Component<PanelProperties, PanelState> {
       this.setState({ password: password }, () => {
         secUtils
           .generateKeyPair({
-            name: 'Proton Team',
-            email: 'careers@protonmail.recruitee.com',
+            name: 'name',
+            email: 'email@email.com',
+            // name: 'Proton Team',
+            // email: 'careers@protonmail.recruitee.com',
             password: password,
           })
           .then((generatedKey) =>
@@ -122,7 +124,7 @@ class Panel extends React.Component<PanelProperties, PanelState> {
     }
   };
 
-  debouncedOnChangeEncryptedMessage = _.debounce(
+  throttleOnChangeEncryptedMessage = _.throttle(
     () => this.updateEncryptedMessage(),
     500
   );
@@ -130,7 +132,7 @@ class Panel extends React.Component<PanelProperties, PanelState> {
   onChangeDecryptedMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
     this.setState(
       { decryptedMessage: event.target.value },
-      this.debouncedOnChangeEncryptedMessage
+      this.throttleOnChangeEncryptedMessage
     );
   };
 
