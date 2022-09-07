@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Chrome Debug",
+      "name": "Debug Chrome",
       "port": 9222,
       "type": "chrome",
       "request": "launch",
@@ -11,7 +11,7 @@
       "sourceMaps": true
     },
     {
-      "name": "Firefox Debug",
+      "name": "Debug Firefox",
       "type": "firefox",
       "request": "launch",
       "firefoxExecutable": "developer",
@@ -41,6 +41,16 @@
           "default": "Info"
         }
       }
+    },
+    {
+      "name": "Debug Node",
+      "port": 9229,
+      "request": "attach",
+      "localRoot": "${workspaceFolder}",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "type": "node"
     }
   ]
 }

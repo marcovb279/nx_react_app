@@ -2,8 +2,9 @@
   "$schema": "./node_modules/nx/schemas/workspace-schema.json",
   "version": 2,
   "projects": {
-    "secure-message-panel": "apps/secure-message-panel",
-    "secure-message-panel-e2e": "apps/secure-message-panel-e2e",
-    "security-utils": "libs/security-utils"
+    "api": "apps/api",
+    "web-app": "apps/web-app",
+    "web-app-e2e": "apps/web-app-e2e",
+    "web-app-utils": "libs/web-app-utils"
   }
 }

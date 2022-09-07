@@ -1,18 +1,18 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/secure-message-panel-e2e/src",
+  "sourceRoot": "apps/web-app-e2e/src",
   "projectType": "application",
   "targets": {
     "e2e": {
       "executor": "@nrwl/cypress:cypress",
       "options": {
-        "cypressConfig": "apps/secure-message-panel-e2e/cypress.config.ts",
-        "devServerTarget": "secure-message-panel:serve:development",
+        "cypressConfig": "apps/web-app-e2e/cypress.config.ts",
+        "devServerTarget": "web-app:serve:development",
         "testingType": "e2e"
       },
       "configurations": {
         "production": {
-          "devServerTarget": "secure-message-panel:serve:production"
+          "devServerTarget": "web-app:serve:production"
         }
       }
     },
@@ -20,10 +20,10 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["apps/secure-message-panel-e2e/**/*.{js,ts}"]
+        "lintFilePatterns": ["apps/web-app-e2e/**/*.{js,ts}"]
       }
     }
   },
   "tags": [],
-  "implicitDependencies": ["secure-message-panel"]
+  "implicitDependencies": ["web-app"]
 }

@@ -13,11 +13,11 @@
     "lib": ["es2017", "dom"],
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
-    "forceConsistentCasingInFileNames" : true,
+    "forceConsistentCasingInFileNames": true,
     "strict": true,
     "baseUrl": ".",
     "paths": {
-      "@react-app-workspace/security-utils": ["libs/security-utils/src/index.ts"]
+      "@app-workspace/web-app-utils": ["libs/web-app-utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

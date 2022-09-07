@@ -1,3 +1,4 @@
+import { environment } from '../../environments/environment';
 import * as React from 'react';
 import { styled, Theme } from '@mui/material/styles';
 import {
@@ -14,10 +15,7 @@ import {
 } from '@mui/material';
 import * as _ from 'lodash';
 import axios from 'axios';
-import * as secUtils from '@react-app-workspace/security-utils';
-
-const MyPublicKeyURL =
-  'https://security-n-privacy.s3.eu-west-3.amazonaws.com/0x530EDF90_public.asc';
+import * as secUtils from '@app-workspace/web-app-utils';
 
 const CssTextField = styled(TextField)({
   '& label.Mui-focused': {
@@ -67,7 +65,7 @@ class Panel extends React.Component<PanelProperties, PanelState> {
   override componentDidMount = () => {
     axios
       .request({
-        url: MyPublicKeyURL,
+        url: environment.MY_PUBLIC_KEY_URL,
         method: 'GET',
       })
       .then((response) => {
@@ -80,18 +78,18 @@ class Panel extends React.Component<PanelProperties, PanelState> {
       const password = secUtils.generatePassword(10);
       this.setState({ password: password }, () => {
         secUtils
-          .generateKeyPair({
-            name: 'name',
-            email: 'email@email.com',
+          .generateKeyPair(
+            'name',
+            'email@email.com',
             // name: 'Proton Team',
             // email: 'careers@protonmail.recruitee.com',
-            password: password,
-          })
-          .then((generatedKey) =>
+            password
+          )
+          .then(({ privateKey, publicKey }) =>
             this.setState(
               {
-                generatedPrivateKey: generatedKey.privateKey,
-                generatedPublicKey: generatedKey.publicKey,
+                generatedPrivateKey: privateKey,
+                generatedPublicKey: publicKey,
               },
               this.updateEncryptedMessage
             )

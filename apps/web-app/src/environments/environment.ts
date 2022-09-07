@@ -3,4 +3,6 @@
 
 export const environment = {
   production: false,
+  MY_PUBLIC_KEY_URL:
+    'https://security-n-privacy.s3.eu-west-3.amazonaws.com/0x530EDF90_public.asc',
 };

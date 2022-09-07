@@ -1,20 +1,20 @@
 {
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/security-utils/src",
+  "sourceRoot": "libs/web-app-utils/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
-        "lintFilePatterns": ["libs/security-utils/**/*.ts"]
+        "lintFilePatterns": ["libs/web-app-utils/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/libs/security-utils"],
+      "outputs": ["coverage/libs/web-app-utils"],
       "options": {
-        "jestConfig": "libs/security-utils/jest.config.ts",
+        "jestConfig": "libs/web-app-utils/jest.config.ts",
         "passWithNoTests": true
       }
     }

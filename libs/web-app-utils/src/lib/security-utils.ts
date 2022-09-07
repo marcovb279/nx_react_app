@@ -4,63 +4,72 @@ import {
   decryptKey,
   readPrivateKey,
   createMessage,
+  readMessage,
   encrypt,
   decrypt,
 } from 'openpgp/lightweight';
-import { Key, PrivateKey, Message } from 'openpgp/lightweight';
-
-export interface GeneratedKey {
-  privateKey: string;
-  publicKey: string;
-  revocationCertificate: string;
-}
-export interface GenerationParameters {
-  name: string;
-  email: string;
-  password?: string;
-}
 
 export function generatePassword(length: number) {
   return Math.random().toString(36).slice(-Math.abs(length));
 }
 
-export function generateKeyPair({
-  name,
-  email,
-  password,
-}: GenerationParameters): Promise<GeneratedKey> {
+export function generateKeyPair(name: string, email: string, password: string) {
   return generateKey({
     type: 'ecc', // Type of the key, defaults to ECC
-    curve: 'p521', // ECC curve name, defaults to curve25519
+    curve: 'p521', // ECC curve name, defaults to p521
     userIDs: [{ name: name, email: email }], // you can pass multiple user IDs
     passphrase:
       password !== undefined && password.length > 0 ? password : undefined, // protects the private key
     format: 'armored', // output key format, defaults to 'armored' (other options: 'binary' or 'object')
   }).then(({ privateKey, publicKey, revocationCertificate }) => {
-    // console.log({ privateKey, publicKey, revocationCertificate });
     return {
       privateKey: privateKey,
       publicKey: publicKey,
       revocationCertificate: revocationCertificate,
-    } as GeneratedKey;
+    };
   });
 }
 
-export function decryptMessage() {
-  // TODO: add logic for decrypting
+export function decryptMessage(
+  message: string,
+  signingKey: string,
+  decryptionKey: string,
+  password?: string
+) {
+  return Promise.all([
+    readKey({ armoredKey: signingKey }),
+    readPrivateKey({ armoredKey: decryptionKey }).then((privKey) => {
+      if (password !== undefined && password.length > 0)
+        return decryptKey({ privateKey: privKey, passphrase: password });
+      return privKey;
+    }),
+    readMessage({ armoredMessage: message }),
+  ])
+    .then(([signingKey, decryptionKey, message]) =>
+      decrypt({
+        message,
+        verificationKeys: signingKey,
+        decryptionKeys: decryptionKey,
+      })
+    )
+    .then(({ data: decrypted, signatures }) => {
+      return { message: decrypted, signatures: signatures };
+    });
 }
 
 export function encryptMessage(
   message: string,
   encryptionKey: string,
   signingKey: string,
-  password: string
+  password?: string
 ): Promise<string> {
   return Promise.all([
     readKey({ armoredKey: encryptionKey }),
-    readPrivateKey({ armoredKey: signingKey }).then((privKey) =>
-      decryptKey({ privateKey: privKey, passphrase: password })
-    ),
+    readPrivateKey({ armoredKey: signingKey }).then((privKey) => {
+      if (password !== undefined && password.length > 0)
+        return decryptKey({ privateKey: privKey, passphrase: password });
+      return privKey;
+    }),
     createMessage({ text: message }),
   ]).then(([encryptionKey, signingKey, message]) => {
     return encrypt({

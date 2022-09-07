@@ -1,7 +1,8 @@
 import { createTheme } from '@mui/material';
 import { StrictMode } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import Panel from './app/panel';
+
+import Panel from './app/panel/panel';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
